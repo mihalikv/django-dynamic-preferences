@@ -5,7 +5,7 @@ from dynamic_preferences.registries import (
     global_preferences_registry,
 )
 from dynamic_preferences import preferences, exceptions
-from dynamic_preferences.types import IntegerPreference, StringPreference
+from dynamic_preferences.types import IntegerPreference, StringPreference, FilePreference
 from dynamic_preferences.signals import preference_updated
 
 from .test_app import dynamic_preferences_registry as prefs
@@ -187,6 +187,20 @@ def test_get_field_uses_field_kwargs():
 
     kwargs = p.get_field_kwargs()
     assert kwargs["required"] is False
+
+def test_file_preference():
+    class TestFilePreference(FilePreference):
+        name = "test"
+    
+    manager = global_preferences_registry.manager()
+    print(manager['test'])
+    # inst = TestFilePreference()
+    # logo = SimpleUploadedFile("logo.png", b"file_content", content_type="image/png")
+    # manager['blog__logo'] = logo
+
+    # # accessing the value will return a FieldFile object, just as
+    # # django.db.models.FileField
+    # assert manager['blog__logo'].read() == b'file_content'
 
 
 def test_preferences_manager_signal(db):
